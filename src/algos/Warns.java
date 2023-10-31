@@ -3,6 +3,7 @@ package algos;
 import chess.Cell;
 import chess.ChessBoard;
 import chess.Knight;
+
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Warns extends Algo {
@@ -25,16 +26,17 @@ public class Warns extends Algo {
     /**
      * Uses Warnsdorff's heuristic to find the best move.
      */
-    public boolean nextMove(ChessBoard board, Cell currentPos) {
+    public Cell nextMove(ChessBoard board, Cell currentPos) {
         int min_degree = 8;
         Cell min_cell = null;
         Cell[] moves = Knight.getOpenMovesFrom(board, currentPos);
+        if (moves.length == 0) return null;
 
         // Start from random move index, so we aren't trying to take the same path every time
-        int random = ThreadLocalRandom.current().nextInt(100) % 8;
+        int random = ThreadLocalRandom.current().nextInt(100) % moves.length;
 
-        for (int i = 0; i < 8; i++) {
-            int mov_idx = (random + i) % 8;
+        for (int i = 0; i < moves.length; i++) {
+            int mov_idx = (random + i) % moves.length;
             int degree = getDegree(board, moves[mov_idx]);
             if (min_degree > degree) {
                 min_degree = degree;
@@ -42,19 +44,37 @@ public class Warns extends Algo {
             }
         }
 
-        if (min_cell == null) return false;
+        if (min_cell == null) return null;
 
         board.setValue(min_cell, currentPos.val + 1);
-
-        return true;
+        min_cell.val = currentPos.val + 1;
+        return min_cell;
     }
 
-    public boolean findRoute() {
+    public boolean findRoute(ChessBoard board, Cell start) {
+        board.setValue(start, 1);
+        for (int i = 0; i < n*m-1; i++) {
+            start = nextMove(board, start);
+            if (start == null) return false;
+        }
         return true;
     }
 
     @Override
     public void run() {
+        Cell start = new Cell(1, 1, 1);
+        while (true) {
+            ChessBoard board = new ChessBoard(n, m);
+            boolean found = findRoute(board, start);
+            if (found) {
+                System.out.println(board);
+                break;
+            }
+        }
+    }
 
+    public static void main(String[] args) {
+        Warns w = new Warns(400, 400);
+        w.run();
     }
 }

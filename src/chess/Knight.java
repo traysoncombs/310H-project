@@ -1,5 +1,7 @@
 package chess;
 
+import java.util.ArrayList;
+
 public class Knight {
     public static final int[] xOffsets =
             {1, 2, 2, 1, -1, -2, -2, -1};
@@ -26,13 +28,13 @@ public class Knight {
      * based on the provided `board`
      */
     public static Cell[] getOpenMovesFrom(ChessBoard board, Cell cell) {
-        Cell[] moves = new Cell[8];
+        ArrayList<Cell> moves = new ArrayList<>();
 
         for (int i = 0; i < 8; i++) {
             Cell newPos = new Cell(cell.x + xOffsets[i], cell.y + yOffsets[i]);
-            if(board.isOpen(newPos)) moves[i] = newPos;
+            if(board.isOpen(newPos)) moves.add(newPos);
         }
 
-        return moves;
+        return moves.toArray(new Cell[0]);
     }
 }
