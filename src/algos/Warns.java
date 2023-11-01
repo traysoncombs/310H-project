@@ -7,14 +7,6 @@ import chess.Knight;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Warns extends Algo {
-    int n;
-
-    int m;
-
-    public Warns(int n, int m) {
-        this.n = n;
-        this.m = m;
-    }
 
     /**
      * Finds the number of open cells that are reachable from `cell`
@@ -53,7 +45,7 @@ public class Warns extends Algo {
 
     public boolean findRoute(ChessBoard board, Cell start) {
         board.setValue(start, 1);
-        for (int i = 0; i < n*m-1; i++) {
+        for (int i = 0; i < board.n*board.m-1; i++) {
             start = nextMove(board, start);
             if (start == null) return false;
         }
@@ -61,7 +53,7 @@ public class Warns extends Algo {
     }
 
     @Override
-    public void run() {
+    public void run(int n, int m) {
         Cell start = new Cell(1, 1, 1);
         while (true) {
             ChessBoard board = new ChessBoard(n, m);
@@ -74,7 +66,7 @@ public class Warns extends Algo {
     }
 
     public static void main(String[] args) {
-        Warns w = new Warns(400, 400);
-        w.run();
+        Warns w = new Warns();
+        w.run(10, 20);
     }
 }

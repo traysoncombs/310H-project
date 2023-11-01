@@ -26,7 +26,7 @@ public class ChessBoard {
     }
 
     public boolean isValid(Cell cell) {
-        return (cell.x >= 0 && cell.y >= 0) && (cell.y < this.n && cell.x < this.m);
+        return (cell.x >= 0 && cell.y >= 0) && (cell.x < this.n && cell.y < this.m);
     }
 
     public int getValue(Cell cell) {
