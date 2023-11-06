@@ -6,19 +6,19 @@ import chess.Knight;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Warns extends Algo {
+public class Warns  {
 
     /**
      * Finds the number of open cells that are reachable from `cell`
      */
-    public int getDegree(ChessBoard board, Cell cell) {
+    public static int getDegree(ChessBoard board, Cell cell) {
         return Knight.getOpenMovesFrom(board, cell).length;
     }
 
     /**
      * Uses Warnsdorff's heuristic to find the best move.
      */
-    public Cell nextMove(ChessBoard board, Cell currentPos) {
+    public static Cell nextMove(ChessBoard board, Cell currentPos) {
         int min_degree = 8;
         Cell min_cell = null;
         Cell[] moves = Knight.getOpenMovesFrom(board, currentPos);
@@ -37,36 +37,31 @@ public class Warns extends Algo {
         }
 
         if (min_cell == null) return null;
-
+        // need to set value on the board, and the value of the cell to be used by the next function call
+        // kind of a confusing way of doing this but it works.
         board.setValue(min_cell, currentPos.val + 1);
         min_cell.val = currentPos.val + 1;
+
         return min_cell;
     }
 
-    public boolean findRoute(ChessBoard board, Cell start) {
+    public static boolean findRoute(ChessBoard board, Cell start) {
         board.setValue(start, 1);
-        for (int i = 0; i < board.n*board.m-1; i++) {
+        for (int i = 0; i < board.n * board.m - 1; i++) {
             start = nextMove(board, start);
             if (start == null) return false;
         }
         return true;
     }
 
-    @Override
-    public void run(int n, int m) {
+    public static ChessBoard run(int n, int m) {
         Cell start = new Cell(1, 1, 1);
         while (true) {
             ChessBoard board = new ChessBoard(n, m);
             boolean found = findRoute(board, start);
             if (found) {
-                System.out.println(board);
-                break;
+                return board;
             }
         }
-    }
-
-    public static void main(String[] args) {
-        Warns w = new Warns();
-        w.run(10, 20);
     }
 }

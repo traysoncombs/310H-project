@@ -19,6 +19,18 @@ public class ChessBoard {
     }
 
     /**
+     * Constructor to create a copy of a board
+     */
+    public ChessBoard(ChessBoard board) {
+        // This just copies an array (found on SO)
+        this.board = Arrays.stream(board.board)
+                .map(cell ->  Arrays.copyOf(cell, cell.length))
+                .toArray(int[][]::new);
+        this.n = board.n;
+        this.m = board.m;
+    }
+
+    /**
      * Returns true if (x, y) is a valid open cell.
      */
     public boolean isOpen(Cell cell) {
