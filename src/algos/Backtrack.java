@@ -7,7 +7,7 @@ import chess.Knight;
 
 public class Backtrack {
     public static ChessBoard backTrack(ChessBoard board, Cell cell, int idx) {
-        if (idx == board.n * board.m - 1) return board;
+        if (idx == board.n * board.m + 1) return board;
         Cell[] moves = Knight.getOpenMovesFrom(board, cell);
 
         for (Cell move : moves) {
@@ -23,10 +23,10 @@ public class Backtrack {
         return null;
     }
 
-    public static ChessBoard run(int n, int m) {
+    public static ChessBoard run(int n, int m, Cell start) {
+        start.val = 1;
         ChessBoard board = new ChessBoard(n, m);
-        Cell start = new Cell(1, 1, 1);
-        board.setValue(start, 1);
+        board.setValue(start);
         return backTrack(board, start, 2);
     }
 }
