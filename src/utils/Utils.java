@@ -1,8 +1,14 @@
+package utils;
+
 import chess.Cell;
 import chess.ChessBoard;
 import chess.Knight;
 
+
 public class Utils {
+    /**
+     * Verifies that a board contains a valid tour.
+     */
     public static boolean verify(ChessBoard board, Cell start) {
         boolean hasValidIndex = false;
         for (int i = 2; i <= board.n*board.m; i++) {
@@ -20,10 +26,5 @@ public class Utils {
             }
         }
         return true;
-    }
-
-    public static boolean isSolvable(int n, int m, Cell start) {
-        if (m % 2 != 0 || n % 2 != 0) return false;
-        return false;
     }
 }

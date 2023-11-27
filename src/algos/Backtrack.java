@@ -3,9 +3,14 @@ package algos;
 import chess.Cell;
 import chess.ChessBoard;
 import chess.Knight;
+import utils.Utils;
 
 
 public class Backtrack {
+
+    /**
+     * Implementation of a backtracking solution to the knights tour.
+     */
     public static ChessBoard backTrack(ChessBoard board, Cell cell, int idx) {
         if (idx == board.n * board.m + 1) return board;
         Cell[] moves = Knight.getOpenMovesFrom(board, cell);
